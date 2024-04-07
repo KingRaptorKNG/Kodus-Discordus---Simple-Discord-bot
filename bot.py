@@ -4,6 +4,10 @@ import random
 import time
 import os
 import requests
+# You can put images in your bot's directory.
+# I recommend uploading memes with rarities: Common, Uncommon, Rare.
+# Just name those images with rarities of your choice with space between number and rarity!
+# Example: Common 1.jpg
 print(os.listdir('images'))
 
 intents = discord.Intents.default()
