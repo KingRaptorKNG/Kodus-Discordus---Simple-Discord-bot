@@ -186,4 +186,4 @@ async def commands(ctx):
     time.sleep(1)
     await ctx.send('challenge - челлендж по сбору пластика.')
 
-bot.run("MTIxNzQ3NzI3OTgxMTI0NDA2Mg.Gs39mq.YxLCfZ0T_CXp4bw8Ex8M2YWsfjUxJ10BMjZWj4")
+bot.run("")
