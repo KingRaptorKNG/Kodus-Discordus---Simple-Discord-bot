@@ -60,28 +60,67 @@ async def duck(ctx):
     await ctx.send(image_url)
 
 
-@client.event
-async def on_message():
-    if message.content.startswith('$challenge') or message.content.startswith('$Challenge'):
-        start = True
-        while start:
-            await ctx.send('Вы готовы начать челлендж: Кто больше соберёт пластика?')
-            if message.content.startswith('$yes') or message.content.startswith('$Yes'):
-                await ctx.send('Челлендж начинается!')
+@bot.event
+async def on_message(message):
+        if message.content.startswith('$challenge'):
+            start = True
+            await message.channel.send('Вы готовы начать челлендж: Кто больше соберёт пластика?')
+            while start:
                 time.sleep(1)
-                await ctx.send('Ваша задача отправлять $+ если вы собрали пластик!')
-                await ctx.send('Игрок 1 отправьте + если готовы или - чтобы закончить')
-                if message.content.startswith('$+'):
-                    player1 = ctx.message.author
-                else:
+                user_response = await bot.wait_for('message', timeout=10)
+                if user_response.content == 'yes' or user_response.content == 'Yes':
+                    await message.channel.send('Челлендж начинается!')
+                    time.sleep(1)
+                    await message.channel.send('Ваша задача отправлять + если вы собрали пластик!')
+                    time.sleep(1)
+                    await message.channel.send('Игрок 1 отправьте + если готовы или - чтобы закончить')
+                    time.sleep(1)
+                    user_response = await bot.wait_for('message')
+                    if user_response.content == '+':
+                        player1 = message.author
+                        count1 = 0
+                    else:
+                        start = False
+                        continue
+                    time.sleep(1)
+                    await message.channel.send('Игрок 2 отправьте + если готовы или - чтобы закончить')
+                    time.sleep(1)
+                    user_response = await bot.wait_for('message')
+                    if user_response.content == '+':
+                        player2 = message.author
+                        count2 = 0
+                    else:
+                        start = False
+                        continue
+                    await message.channel.send('Начинаем! Отправляйте плюсы когда собрали пластик!')
+                    time.sleep(3)
+                    end = True
+                    while end:
+                        user_response = await bot.wait_for('message')
+                        time.sleep(1)
+                        if user_response.content == '+' and message.author == player1:
+                            await message.channel.send('Игрок 1 получил очко! score - просмотр очков!')
+                            count1 += 1
+                        if user_response.content == '+' and message.author == player2:
+                            await message.channel.send('Игрок 2 получил очко! score - просмотр очков!')
+                            count2 += 1
+                        if user_response.content == 'score':
+                            player1_score1 = 'Очки Игрока 1 = ', count1, '!'
+                            player1_score2 = 'Очки Игрока 2 = ', count2, '!'
+                            await message.channel.send(player1_score1)
+                            time.sleep(1)
+                            await message.channel.send(player1_score2)
+                        if user_response.content == '-':
+                            end = False
+                            continue
+                    else:
+                        start = False
+                elif user_response.content == 'no':
                     start = False
-                await ctx.send('Игрок 2 отправьте + если готовы или - чтобы закончить')
-                if message.content.startswith('$+'):
-                    player2 = ctx.message.author
-                else:
-                    start = False
-        else:
-            await ctx.send('Челлендж завершён.')
+
+            else:
+                await message.channel.send('Челлендж завершён.')
+        await bot.process_commands(message)
 
 
 
