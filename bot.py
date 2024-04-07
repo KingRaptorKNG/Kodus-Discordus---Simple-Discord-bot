@@ -89,23 +89,19 @@ async def on_message():
 @bot.command()
 async def timer(ctx, how_much = 5, timer = False):
     await ctx.send('Запущен таймер!')
-    try:
-        how_much = int(how_much)
-        timer = bool(timer)
-    except ValueError:
-        if how_much < 0:
-            for i in range(how_much, 0+1, 1):
-                if timer is True:
-                    await ctx.send(i)
-                time.sleep(1)
-        elif how_much >= 0:
-            for i in range(1, how_much+1):
-                if timer is True:
-                    await ctx.send(i)
-                time.sleep(1)
-        await ctx.send('Время вышло!')
-
-        await ctx.send('Данные введены неверно!')
+    how_much = int(how_much)
+    timer = bool(timer)
+    if how_much < 0:
+        for i in range(how_much, 0+1, 1):
+            if timer is True:
+                await ctx.send(i)
+            time.sleep(1)
+    elif how_much >= 0:
+        for i in range(1, how_much+1):
+            if timer is True:
+                await ctx.send(i)
+            time.sleep(1)
+    await ctx.send('Время вышло!')
 
 
 @bot.command()
@@ -166,6 +162,8 @@ async def mem(ctx):
 async def commands(ctx):
     await ctx.send('Пока что я могу выполнить эти команды:')
     time.sleep(1)
+    await ctx.send('$ - префикс;')
+    time.sleep(1)
     await ctx.send('coin - подбрасываю монетку;')
     time.sleep(1)
     await ctx.send('timer [сколько] [показывать время] - [сколько] - на сколько секунд засекаю таймер - [показывать время] False/True - писать ли время по секундам;')
@@ -178,6 +176,14 @@ async def commands(ctx):
     time.sleep(1)
     await ctx.send('number [от] [до] - выбираю случайное число от [от] до [до];')
     time.sleep(1)
-    await ctx.send('clear [сколько] - заполняю [сколько] строк пустыми сообщениями.')
+    await ctx.send('clear [сколько] - заполняю [сколько] строк пустыми сообщениями;')
+    time.sleep(1)
+    await ctx.send('fox - отправляю рандомное изображение лисы;')
+    time.sleep(1)
+    await ctx.send('duck - отправляю рандомное изображение утки;')
+    time.sleep(1)
+    await ctx.send('mem - отправляю рандомный мем;')
+    time.sleep(1)
+    await ctx.send('challenge - челлендж по сбору пластика.')
 
 bot.run("MTIxNzQ3NzI3OTgxMTI0NDA2Mg.Gs39mq.YxLCfZ0T_CXp4bw8Ex8M2YWsfjUxJ10BMjZWj4")
